@@ -15,6 +15,9 @@ const promiseFrame = async <
   functions: T,
   limit?: number
 ): Promise<ResultsT[]> => {
+  if (!Array.isArray(functions) || typeof limit !== 'number' || limit <= 0) {
+    throw new Error('INVALID_ARGUMENT');
+  }
   return [];
 };
 
