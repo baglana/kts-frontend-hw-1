@@ -4,19 +4,19 @@ const memo = <T extends (...args: any[]) => any>(
 ): ((...arg: Parameters<T>) => ReturnType<T>) => {
   if (
     typeof func !== 'function' ||
-    (typeof time !== 'undefined' && (typeof time !== 'number' || time < 0))
+    (time !== undefined && (typeof time !== 'number' || time < 0))
   ) {
     throw new Error('INVALID_ARGUMENT');
   }
   const cache = new Map();
   const timeoutIdCache = new Map();
-  return function () {
-    const key = hash(arguments); // (*)
+  return function (...args) {
+    const key = hash(args);
     if (cache.has(key)) {
       return cache.get(key);
     }
 
-    const result = func.call(this, ...arguments); // (**)
+    const result = func.call(this, ...args);
 
     cache.set(key, result);
 
